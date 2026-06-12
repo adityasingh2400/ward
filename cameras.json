@@ -107,7 +107,7 @@
     "lng": -122.3989,
     "direction": "room",
     "img": null,
-    "intervalSec": 10
+    "intervalSec": 15
   },
   {
     "id": "mobile-1",
