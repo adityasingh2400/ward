@@ -30,57 +30,61 @@ export type Widget =
   | { kind: "action"; title: string; steps: string[] }
   | { kind: "twin"; title: string; camera_id: string; incident_note: string };
 
+/**
+ * Flat schema — the structured-outputs compiler rejected the widget-union
+ * version as "Schema is too complex". Flat fields also make data fabrication
+ * impossible: the model titles/curates; all data values (frames, series,
+ * coordinates) are attached deterministically from real sources in code.
+ */
 const SPEC_SCHEMA = {
   type: "object",
   properties: {
     headline: { type: "string" },
     subhead: { type: "string" },
     severity_label: { type: "string", enum: ["MONITOR", "NOTABLE", "URGENT", "EMERGENCY"] },
-    widgets: {
+    evidence_caption: { type: "string", description: "caption for the triggering camera frame" },
+    stats: {
       type: "array",
       items: {
         type: "object",
-        properties: {
-          kind: { type: "string", enum: ["evidence", "stat", "timeline", "trend", "map", "action", "twin"] },
-          title: { type: "string" },
-          frame_path: { type: "string" },
-          caption: { type: "string" },
-          value: { type: "string" },
-          delta: { type: "string" },
-          items: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: { ts: { type: "string" }, note: { type: "string" } },
-              required: ["ts", "note"],
-              additionalProperties: false,
-            },
-          },
-          series_label: { type: "string" },
-          points: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: { t: { type: "string" }, v: { type: "number" } },
-              required: ["t", "v"],
-              additionalProperties: false,
-            },
-          },
-          lat: { type: "number" },
-          lng: { type: "number" },
-          label: { type: "string" },
-          steps: { type: "array", items: { type: "string" } },
-          camera_id: { type: "string" },
-          incident_note: { type: "string" },
-        },
-        required: ["kind", "title"],
+        properties: { title: { type: "string" }, value: { type: "string" }, delta: { type: "string" } },
+        required: ["title", "value", "delta"],
+        additionalProperties: false,
+      },
+      description: "0-3 key numbers grounded in the investigation",
+    },
+    timeline: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: { ts: { type: "string" }, note: { type: "string" } },
+        required: ["ts", "note"],
         additionalProperties: false,
       },
     },
+    include_trend: { type: "boolean", description: "include the real activity chart for this camera" },
+    trend_title: { type: "string" },
+    actions: { type: "array", items: { type: "string" }, description: "concrete next steps for the official" },
+    include_twin: { type: "boolean", description: "include 3D scene reconstruction (physical-scene incidents)" },
+    twin_note: { type: "string", description: "what the 3D marker indicates" },
   },
-  required: ["headline", "subhead", "severity_label", "widgets"],
+  required: ["headline", "subhead", "severity_label", "evidence_caption", "stats", "timeline", "include_trend", "trend_title", "actions", "include_twin", "twin_note"],
   additionalProperties: false,
 } as const;
+
+interface FlatSpec {
+  headline: string;
+  subhead: string;
+  severity_label: "MONITOR" | "NOTABLE" | "URGENT" | "EMERGENCY";
+  evidence_caption: string;
+  stats: { title: string; value: string; delta: string }[];
+  timeline: { ts: string; note: string }[];
+  include_trend: boolean;
+  trend_title: string;
+  actions: string[];
+  include_twin: boolean;
+  twin_note: string;
+}
 
 export async function compose(
   incident: {
@@ -148,17 +152,20 @@ Compose the dashboard spec.`,
 
   const text = resp.content.find((b): b is Anthropic.TextBlock => b.type === "text");
   if (!text) throw new Error("compose: no output");
-  const spec = JSON.parse(text.text) as WidgetSpec;
+  const flat = JSON.parse(text.text) as FlatSpec;
 
-  // Guarantee evidence + map presence with real values regardless of model choices.
-  if (!spec.widgets.some((w) => w.kind === "evidence")) {
-    spec.widgets.unshift({ kind: "evidence", title: "Evidence frame", frame_path: incident.frame_path, caption: incident.description });
-  }
-  if (cam?.lat && cam?.lng && !spec.widgets.some((w) => w.kind === "map")) {
-    spec.widgets.push({ kind: "map", title: "Location", lat: cam.lat, lng: cam.lng, label: cam.name });
-  }
-  for (const w of spec.widgets) {
-    if (w.kind === "evidence") w.frame_path = incident.frame_path; // never let the model point at a different frame
-  }
-  return spec;
+  // Assemble the widget list deterministically: model curates, code attaches
+  // all real data (frame path, series, coordinates) — nothing fabricable.
+  const widgets: Widget[] = [
+    { kind: "evidence", title: "Evidence frame", frame_path: incident.frame_path, caption: flat.evidence_caption || incident.description },
+    ...flat.stats.slice(0, 3).map((s): Widget => ({ kind: "stat", title: s.title, value: s.value, delta: s.delta })),
+  ];
+  if (flat.include_twin) widgets.push({ kind: "twin", title: "Scene", camera_id: incident.camera_id, incident_note: flat.twin_note });
+  if (flat.timeline.length) widgets.push({ kind: "timeline", title: "Timeline", items: flat.timeline });
+  if (flat.include_trend && series.length > 1)
+    widgets.push({ kind: "trend", title: flat.trend_title || "Activity at this camera", series_label: "people+vehicles per minute", points: series });
+  if (cam?.lat && cam?.lng) widgets.push({ kind: "map", title: "Location", lat: cam.lat, lng: cam.lng, label: cam.name });
+  if (flat.actions.length) widgets.push({ kind: "action", title: "Recommended actions", steps: flat.actions });
+
+  return { headline: flat.headline, subhead: flat.subhead, severity_label: flat.severity_label, widgets };
 }

@@ -29,3 +29,24 @@ not be the first render.
 - World Labs free tier: web export gated, but **API returns .spz URLs directly** —
   validated without spending; all 4 generations preserved for daylight frames.
 - Caltrans placeholder frames are ~13.1KB → size-gate + SHA-dedupe before any API spend.
+
+## UPDATE 06:45am — VERIFY #2 COMPLETED ORGANICALLY 🔥
+
+At 06:39:43 PDT, WARD autonomously detected a **real vehicle fire** on US-101 at
+Octavia St (camera tv301us101atoctaviast, confidence 0.92) — large smoke plume,
+SFFD engine visible on scene in the frame. Zero human involvement:
+frame → detection → ClickHouse → trigger → investigation (3 SQL queries,
+cross-referenced the 13:44 follow-up observation confirming responders) →
+composed 9-widget dashboard → OpenUI-generated interface rendered on the portal.
+
+Evidence: `REAL-fire-evidence-frame.jpg`, `REAL-fire-followup-frame.jpg`,
+`REAL-fire-incident-genui.png` (full generated dashboard).
+
+Found+fixed in the process: compose's widget-union schema rejected by the
+structured-outputs compiler ("Schema is too complex") → flattened schema; model
+now curates while code attaches all data values deterministically (fabrication
+impossible). `server/enrich.ts` added for re-running enrichment.
+
+Soak verdict: pipeline ran overnight (00:25→06:45, one 35s network blip,
+self-recovered), 280+ observations, and the one incident it raised was real.
+Zero false alarms all night. Conditions #1✅ #2✅ #4✅ #6✅ #7✅ #8✅.
