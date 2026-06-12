@@ -23,6 +23,10 @@ export const ENV = {
   FIVEONEONE_API_KEY: process.env.FIVEONEONE_API_KEY || null,
   // Models. DETECT_MODEL is the per-frame cost lever (see TOMORROW.md).
   DETECT_MODEL: process.env.DETECT_MODEL ?? "claude-fable-5",
+  // Optional cheaper model for high-volume traffic cams (venue/mobile keep
+  // DETECT_MODEL). Re-run `npm run golden` after changing to validate the
+  // zero-false-positive gate on the new model.
+  DETECT_MODEL_TRAFFIC: process.env.DETECT_MODEL_TRAFFIC ?? process.env.DETECT_MODEL ?? "claude-fable-5",
   AGENT_MODEL: process.env.AGENT_MODEL ?? "claude-fable-5",
   // UI generation provider seam: "openui-oss" | "widgetkit" | "c1"
   UI_PROVIDER: process.env.UI_PROVIDER ?? "openui-oss",

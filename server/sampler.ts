@@ -66,7 +66,9 @@ async function captureVenueFrame(cam: Camera): Promise<string | null> {
     // OS camera-permission prompt for the terminal app — click Allow once.
     await execFileP(
       "ffmpeg",
-      ["-hide_banner", "-loglevel", "error", "-f", "avfoundation", "-framerate", "30", "-i", "0:none", "-frames:v", "1", "-y", file],
+      // Downscale to 960px wide: vision quality is unaffected for person/object
+      // scale events, and image tokens drop ~3x vs the native 1552x1552.
+      ["-hide_banner", "-loglevel", "error", "-f", "avfoundation", "-framerate", "30", "-i", "0:none", "-frames:v", "1", "-vf", "scale=960:-2", "-y", file],
       { timeout: 15000 }
     );
     if (!fs.existsSync(file) || fs.statSync(file).size < 5000) throw new Error("empty capture");
