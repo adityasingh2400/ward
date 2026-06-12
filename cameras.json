@@ -1,0 +1,122 @@
+[
+  {
+    "id": "tv317i2806thstreetofframp",
+    "name": "I-280 : 6th Street Offramp",
+    "kind": "traffic",
+    "lat": 37.77145,
+    "lng": -122.3974,
+    "direction": "North",
+    "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tv317i2806thstreetofframp/tv317i2806thstreetofframp.jpg",
+    "intervalSec": 20
+  },
+  {
+    "id": "tv304i80us101",
+    "name": "I-80 : US-101",
+    "kind": "traffic",
+    "lat": 37.77025,
+    "lng": -122.40554,
+    "direction": "East",
+    "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tv304i80us101/tv304i80us101.jpg",
+    "intervalSec": 20
+  },
+  {
+    "id": "tv316i806thstreet",
+    "name": "I-80 : 6th Street",
+    "kind": "traffic",
+    "lat": 37.77696,
+    "lng": -122.40347,
+    "direction": "East",
+    "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tv316i806thstreet/tv316i806thstreet.jpg",
+    "intervalSec": 20
+  },
+  {
+    "id": "tvd01i80fremont",
+    "name": "TVD01 -- I-80 : Fremont",
+    "kind": "traffic",
+    "lat": 37.78537,
+    "lng": -122.39244,
+    "direction": "West",
+    "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tvd01i80fremont/tvd01i80fremont.jpg",
+    "intervalSec": 20
+  },
+  {
+    "id": "tvd32i80baybridgesastowereast",
+    "name": "TVD32 -- I-80 : Bay Bridge SAS Tower East",
+    "kind": "traffic",
+    "lat": 37.81526,
+    "lng": -122.35855,
+    "direction": "Median",
+    "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tvd32i80baybridgesastowereast/tvd32i80baybridgesastowereast.jpg",
+    "intervalSec": 20
+  },
+  {
+    "id": "tvd34i80skywaycurve",
+    "name": "TVD34 -- I-80 : Skyway Curve",
+    "kind": "traffic",
+    "lat": 37.818479,
+    "lng": -122.352466,
+    "direction": "West",
+    "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tvd34i80skywaycurve/tvd34i80skywaycurve.jpg",
+    "intervalSec": 20
+  },
+  {
+    "id": "tv303us101s101atsvannessav",
+    "name": "US-101 : S101 at S Van Ness Av",
+    "kind": "traffic",
+    "lat": 37.77001,
+    "lng": -122.41983,
+    "direction": "South",
+    "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tv303us101s101atsvannessav/tv303us101s101atsvannessav.jpg",
+    "intervalSec": 20
+  },
+  {
+    "id": "tv301us101atoctaviast",
+    "name": "US-101 : At Octavia St",
+    "kind": "traffic",
+    "lat": 37.77146,
+    "lng": -122.42323,
+    "direction": "South",
+    "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tv301us101atoctaviast/tv301us101atoctaviast.jpg",
+    "intervalSec": 20
+  },
+  {
+    "id": "tv312us101atcesarchavezbl",
+    "name": "US-101 : At Cesar Chavez Bl",
+    "kind": "traffic",
+    "lat": 37.74823,
+    "lng": -122.40434,
+    "direction": "South",
+    "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tv312us101atcesarchavezbl/tv312us101atcesarchavezbl.jpg",
+    "intervalSec": 20
+  },
+  {
+    "id": "tv306i280atmissionst",
+    "name": "I-280 :  AT MISSION ST",
+    "kind": "traffic",
+    "lat": 37.732,
+    "lng": -122.4285,
+    "direction": "South",
+    "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tv306i280atmissionst/tv306i280atmissionst.jpg",
+    "intervalSec": 20
+  },
+  {
+    "id": "venue",
+    "name": "Civic Plaza Cam (venue)",
+    "kind": "venue",
+    "lat": 37.7905,
+    "lng": -122.3989,
+    "direction": "room",
+    "img": null,
+    "intervalSec": 10
+  },
+  {
+    "id": "mobile-1",
+    "name": "Mobile Unit 1 (field phone)",
+    "kind": "mobile",
+    "lat": null,
+    "lng": null,
+    "direction": null,
+    "img": null,
+    "intervalSec": null
+  }
+]
