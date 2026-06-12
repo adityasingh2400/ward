@@ -86,7 +86,8 @@ export async function detectFrame(
   framePath: string,
   cameraName: string,
   traceId: string,
-  extraWatchHints: string[] = []
+  extraWatchHints: string[] = [],
+  model: string = ENV.DETECT_MODEL
 ): Promise<Detection> {
   const imgB64 = fs.readFileSync(framePath).toString("base64");
   const hints = extraWatchHints.length
@@ -97,17 +98,21 @@ export async function detectFrame(
     {
       traceId,
       name: "detect-frame",
-      model: ENV.DETECT_MODEL,
+      model,
       input: { framePath, cameraName, hints: extraWatchHints },
       usageOf: (r: Anthropic.Message) => ({ input_tokens: r.usage.input_tokens, output_tokens: r.usage.output_tokens }),
       outputOf: (r: Anthropic.Message) => r.content.find((b) => b.type === "text"),
     },
     () =>
       anthropic.messages.create({
-        model: ENV.DETECT_MODEL,
+        model,
         max_tokens: 1500,
         system: SYSTEM,
-        output_config: { format: { type: "json_schema", schema: OBSERVATION_SCHEMA as unknown as Record<string, unknown> }, effort: "low" },
+        // effort is unsupported on Haiku 4.5 (400s); only send it on Fable/Opus-tier.
+        output_config: {
+          format: { type: "json_schema", schema: OBSERVATION_SCHEMA as unknown as Record<string, unknown> },
+          ...(model.includes("haiku") ? {} : { effort: "low" as const }),
+        },
         messages: [
           {
             role: "user",

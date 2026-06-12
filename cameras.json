@@ -7,7 +7,7 @@
     "lng": -122.3974,
     "direction": "North",
     "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tv317i2806thstreetofframp/tv317i2806thstreetofframp.jpg",
-    "intervalSec": 20
+    "intervalSec": 30
   },
   {
     "id": "tv304i80us101",
@@ -17,7 +17,7 @@
     "lng": -122.40554,
     "direction": "East",
     "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tv304i80us101/tv304i80us101.jpg",
-    "intervalSec": 20
+    "intervalSec": 30
   },
   {
     "id": "tv316i806thstreet",
@@ -27,7 +27,7 @@
     "lng": -122.40347,
     "direction": "East",
     "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tv316i806thstreet/tv316i806thstreet.jpg",
-    "intervalSec": 20
+    "intervalSec": 30
   },
   {
     "id": "tvd01i80fremont",
@@ -37,7 +37,7 @@
     "lng": -122.39244,
     "direction": "West",
     "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tvd01i80fremont/tvd01i80fremont.jpg",
-    "intervalSec": 20
+    "intervalSec": 30
   },
   {
     "id": "tvd32i80baybridgesastowereast",
@@ -47,7 +47,7 @@
     "lng": -122.35855,
     "direction": "Median",
     "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tvd32i80baybridgesastowereast/tvd32i80baybridgesastowereast.jpg",
-    "intervalSec": 20
+    "intervalSec": 30
   },
   {
     "id": "tvd34i80skywaycurve",
@@ -57,7 +57,7 @@
     "lng": -122.352466,
     "direction": "West",
     "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tvd34i80skywaycurve/tvd34i80skywaycurve.jpg",
-    "intervalSec": 20
+    "intervalSec": 30
   },
   {
     "id": "tv303us101s101atsvannessav",
@@ -67,7 +67,7 @@
     "lng": -122.41983,
     "direction": "South",
     "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tv303us101s101atsvannessav/tv303us101s101atsvannessav.jpg",
-    "intervalSec": 20
+    "intervalSec": 30
   },
   {
     "id": "tv301us101atoctaviast",
@@ -77,7 +77,7 @@
     "lng": -122.42323,
     "direction": "South",
     "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tv301us101atoctaviast/tv301us101atoctaviast.jpg",
-    "intervalSec": 20
+    "intervalSec": 30
   },
   {
     "id": "tv312us101atcesarchavezbl",
@@ -87,7 +87,7 @@
     "lng": -122.40434,
     "direction": "South",
     "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tv312us101atcesarchavezbl/tv312us101atcesarchavezbl.jpg",
-    "intervalSec": 20
+    "intervalSec": 30
   },
   {
     "id": "tv306i280atmissionst",
@@ -97,7 +97,7 @@
     "lng": -122.4285,
     "direction": "South",
     "img": "https://cwwp2.dot.ca.gov/data/d4/cctv/image/tv306i280atmissionst/tv306i280atmissionst.jpg",
-    "intervalSec": 20
+    "intervalSec": 30
   },
   {
     "id": "venue",

@@ -93,7 +93,9 @@ async function processCamera(cam: Camera, hints: string[]) {
     const file = cam.kind === "venue" ? await captureVenueFrame(cam) : await fetchTrafficFrame(cam);
     if (!file) return;
     const traceId = newTraceId(`sample-${cam.id}`);
-    const d = await detectFrame(file, cam.name, traceId, hints);
+    // Traffic cams use the cheap tier; venue/mobile keep the premium model.
+    const model = cam.kind === "traffic" ? ENV.DETECT_MODEL_TRAFFIC : ENV.DETECT_MODEL;
+    const d = await detectFrame(file, cam.name, traceId, hints, model);
     if (!d.frame_usable) {
       fs.unlinkSync(file);
       return;
