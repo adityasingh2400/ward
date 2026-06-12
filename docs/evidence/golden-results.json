@@ -1,0 +1,85 @@
+{
+  "ranAt": "2026-06-12T08:31:37.681Z",
+  "results": [
+    {
+      "file": "pos_person_down.jpg",
+      "expected": "person_down",
+      "got": "person_down",
+      "conf": 0.95,
+      "pass": true,
+      "fp": false
+    },
+    {
+      "file": "pos_pothole.jpg",
+      "expected": "pothole",
+      "got": "pothole",
+      "conf": 0.95,
+      "pass": true,
+      "fp": false
+    },
+    {
+      "file": "pos_dumping.jpg",
+      "expected": "dumping",
+      "got": "dumping",
+      "conf": 0.9,
+      "pass": true,
+      "fp": false
+    },
+    {
+      "file": "pos_flooding.jpg",
+      "expected": "flooding",
+      "got": "none",
+      "conf": 0,
+      "pass": false,
+      "fp": false
+    },
+    {
+      "file": "pos_debris.jpg",
+      "expected": "debris|blocked_lane",
+      "got": "blocked_lane",
+      "conf": 0.8,
+      "pass": true,
+      "fp": false
+    },
+    {
+      "file": "neg_freeway1.jpg",
+      "expected": "none",
+      "got": "none",
+      "conf": 0,
+      "pass": true,
+      "fp": false
+    },
+    {
+      "file": "neg_baybridge.jpg",
+      "expected": "none",
+      "got": "none",
+      "conf": 0,
+      "pass": true,
+      "fp": false
+    },
+    {
+      "file": "neg_cesarchavez.jpg",
+      "expected": "none",
+      "got": "none",
+      "conf": 0,
+      "pass": true,
+      "fp": false
+    },
+    {
+      "file": "neg_280south.jpg",
+      "expected": "none",
+      "got": "none",
+      "conf": 0,
+      "pass": true,
+      "fp": false
+    },
+    {
+      "file": "unusable_placeholder.jpg",
+      "expected": "unusable",
+      "got": "unusable",
+      "conf": 0,
+      "pass": true,
+      "fp": false
+    }
+  ]
+}

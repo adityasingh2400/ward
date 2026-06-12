@@ -44,6 +44,7 @@ HARD RULES:
 - Frames contain overlay banner text (location label, date/time). IGNORE banner text entirely; it is not scene content.
 - If the frame shows a "Temporarily Unavailable" placeholder, is solid black, or too degraded to judge: frame_usable=false, event_type=null.
 - stopped_vehicle means a vehicle stopped where traffic should flow (shoulder/lane), clearly stationary relative to scene context — not congestion. Congestion is normal, not an event.
+- Planned construction/maintenance (cones, work crews, signage in an orderly pattern) is ROUTINE, not blocked_lane or debris. blocked_lane is for unplanned obstructions.
 - person_down requires a person clearly horizontal/on the ground — not sitting, not bending, not a shadow.
 - severity: 1 cosmetic, 2 minor, 3 notable, 4 urgent, 5 emergency.
 Always estimate people_count and vehicle_count for the whole frame (0 if none visible).`;

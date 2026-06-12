@@ -9,3 +9,4 @@ dist/
 twins/*.spz
 twins/*.ply
 frames/
+logs/
