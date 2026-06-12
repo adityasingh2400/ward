@@ -71,6 +71,12 @@ async function captureVenueFrame(cam: Camera): Promise<string | null> {
     );
     if (!fs.existsSync(file) || fs.statSync(file).size < 5000) throw new Error("empty capture");
     venueFailures = 0;
+    // Cheap darkness gate: a black 1552x1552 webcam JPEG compresses to ~19KB.
+    // Don't spend a vision call on an unlit room.
+    if (fs.statSync(file).size < 26000) {
+      fs.unlinkSync(file);
+      return null;
+    }
     return file;
   } catch (e) {
     venueFailures++;
