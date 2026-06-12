@@ -10,3 +10,4 @@ twins/*.spz
 twins/*.ply
 frames/
 logs/
+.gstack/

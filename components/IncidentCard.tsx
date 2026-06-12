@@ -1,8 +1,10 @@
 "use client";
 
+import { useCallback, useState } from "react";
 import dynamic from "next/dynamic";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import type { Widget, WidgetSpec } from "@/server/compose";
+import GenUI from "./GenUI";
 
 const MapWidget = dynamic(() => import("./MapWidget"), { ssr: false });
 const IncidentTwin = dynamic(() => import("./IncidentTwin"), { ssr: false });
@@ -99,6 +101,11 @@ function WidgetView({ w, incident }: { w: Widget; incident: IncidentRow }) {
 }
 
 export default function IncidentCard({ incident }: { incident: IncidentRow }) {
+  // "openui": interface generated live via OpenUI Lang streaming (hero path).
+  // "spec": composer widget-spec rendered by our kit (fallback / comparison).
+  const [mode, setMode] = useState<"openui" | "spec">("openui");
+  const onGenFail = useCallback(() => setMode("spec"), []);
+
   let spec: WidgetSpec | null = null;
   try {
     spec = incident.ui_spec ? (JSON.parse(incident.ui_spec) as WidgetSpec) : null;
@@ -133,12 +140,34 @@ export default function IncidentCard({ incident }: { incident: IncidentRow }) {
     );
   }
 
+  if (mode === "openui") {
+    return (
+      <div style={{ position: "relative", marginBottom: 14 }}>
+        <button
+          onClick={() => setMode("spec")}
+          style={{ position: "absolute", bottom: 8, right: 10, zIndex: 6, fontSize: 9, background: "transparent", color: "var(--muted)", border: "1px solid var(--line)", borderRadius: 4, padding: "2px 6px", cursor: "pointer" }}
+          title="Show the composer's widget-spec rendering instead"
+        >
+          ▦ spec view
+        </button>
+        <GenUI incidentId={incident.id} onFail={onGenFail} />
+      </div>
+    );
+  }
+
   return (
     <div className="incident">
       <header>
         <span className={`sev ${spec.severity_label}`}>{spec.severity_label}</span>
         <h3>{spec.headline}</h3>
         <span className="when">{when}</span>
+        <button
+          onClick={() => setMode("openui")}
+          style={{ fontSize: 9, background: "transparent", color: "var(--gold)", border: "1px solid var(--line)", borderRadius: 4, padding: "2px 6px", cursor: "pointer" }}
+          title="Generate this interface live via OpenUI"
+        >
+          ⚡ OpenUI
+        </button>
       </header>
       <div className="sub">{spec.subhead}</div>
       <div className="widgets">
