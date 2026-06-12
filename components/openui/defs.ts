@@ -7,15 +7,22 @@
  */
 import { z } from "zod/v4";
 
-export const DEFS = {
-  Dashboard: {
-    description: "Root incident dashboard container with headline and severity. All other components go inside it.",
-    props: z.object({
-      headline: z.string().describe("Short, specific incident headline"),
-      subhead: z.string().describe("One-sentence context for a city official"),
-      severity: z.enum(["MONITOR", "NOTABLE", "URGENT", "EMERGENCY"]),
-    }),
+/**
+ * Dashboard is defined separately in each library file because its `items`
+ * prop must be built from the other components' `.ref` schemas (the OpenUI
+ * children pattern: z.array(z.union([...Child.ref]))).
+ */
+export const DASHBOARD_DEF = {
+  description:
+    "Root incident dashboard container with headline and severity. Pass all other components in the items array, ordered by importance.",
+  baseProps: {
+    headline: z.string().describe("Short, specific incident headline"),
+    subhead: z.string().describe("One-sentence context for a city official"),
+    severity: z.enum(["MONITOR", "NOTABLE", "URGENT", "EMERGENCY"]),
   },
+};
+
+export const DEFS = {
   EvidenceFrame: {
     description: "The camera frame that triggered the incident. Always include exactly one, first.",
     props: z.object({

@@ -5,32 +5,16 @@
  * renderers (recharts, leaflet, Spark 3D twin). Must stay in lockstep with
  * promptLibrary.ts (same names/schemas), which the generation route uses.
  */
-import { defineComponent, createLibrary } from "@openuidev/react-lang";
+import { defineComponent, createLibrary, useRenderNode } from "@openuidev/react-lang";
 import dynamic from "next/dynamic";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { z } from "zod/v4";
-import { DEFS } from "./defs";
+import { DEFS, DASHBOARD_DEF } from "./defs";
 
 const MapWidget = dynamic(() => import("../MapWidget"), { ssr: false });
 const IncidentTwin = dynamic(() => import("../IncidentTwin"), { ssr: false });
 
 type P<K extends keyof typeof DEFS> = z.infer<(typeof DEFS)[K]["props"]>;
-
-const Dashboard = defineComponent({
-  name: "Dashboard",
-  description: DEFS.Dashboard.description,
-  props: DEFS.Dashboard.props,
-  component: ({ headline, subhead, severity, children }: P<"Dashboard"> & { children?: React.ReactNode }) => (
-    <div className="incident" style={{ marginBottom: 0 }}>
-      <header>
-        <span className={`sev ${severity}`}>{severity}</span>
-        <h3>{headline}</h3>
-      </header>
-      <div className="sub">{subhead}</div>
-      <div className="widgets">{children}</div>
-    </div>
-  ),
-});
 
 const EvidenceFrame = defineComponent({
   name: "EvidenceFrame",
@@ -141,7 +125,49 @@ const SceneTwin = defineComponent({
   ),
 });
 
+const leaves = [EvidenceFrame, Stat, Timeline, TrendChart, LocationMap, ActionList, SceneTwin];
+
+function DashboardRenderer({
+  headline,
+  subhead,
+  severity,
+  items,
+}: {
+  headline: string;
+  subhead: string;
+  severity: string;
+  items?: unknown[];
+}) {
+  const renderNode = useRenderNode();
+  return (
+    <div className="incident" style={{ marginBottom: 0 }}>
+      <header>
+        <span className={`sev ${severity}`}>{severity}</span>
+        <h3>{headline}</h3>
+      </header>
+      <div className="sub">{subhead}</div>
+      <div className="widgets">
+        {(items ?? []).map((node, i) => (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          <div key={i} style={{ display: "contents" }}>{renderNode(node as any)}</div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const Dashboard = defineComponent({
+  name: "Dashboard",
+  description: DASHBOARD_DEF.description,
+  props: z.object({
+    ...DASHBOARD_DEF.baseProps,
+    items: z.array(z.union(leaves.map((l) => l.ref) as [z.ZodType, ...z.ZodType[]])).describe("dashboard widgets, ordered by importance"),
+  }),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  component: DashboardRenderer as any,
+});
+
 export const wardLibrary = createLibrary({
-  components: [Dashboard, EvidenceFrame, Stat, Timeline, TrendChart, LocationMap, ActionList, SceneTwin],
+  components: [Dashboard, ...leaves],
   root: "Dashboard",
 });
